@@ -14,57 +14,21 @@ abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao
 
-    private class WordDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
-
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
-            INSTANCE?.let { database ->
-                scope.launch {
-                    val wordDao = database.wordDao()
-
-                    // Add sample words.
-                    var word = Word("Hello")
-                    wordDao.insert(word)
-                    word = Word("World!")
-                    wordDao.insert(word)
-
-                    // TODO: Add your own words!
-                    word = Word("TODO!")
-                    wordDao.insert(word)
-                }
-            }
-        }
-    }
-
     companion object {
         @Volatile
         private var INSTANCE: WordRoomDatabase? = null
-
-        fun getDatabase(
-            context: Context,
-            scope: CoroutineScope
-        ): WordRoomDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
-            return INSTANCE
-                ?: synchronized(this) {
+        fun getDatabase(context: Context, scope: CoroutineScope): WordRoomDatabase {
+            return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                         context.applicationContext,
                         WordRoomDatabase::class.java,
                         "word_database"
                     )
-                    .addCallback(
-                        WordDatabaseCallback(
-                            scope
-                        )
-                    )
                     .build()
                 INSTANCE = instance
-                // return instance
                 instance
             }
         }
     }
+
 }

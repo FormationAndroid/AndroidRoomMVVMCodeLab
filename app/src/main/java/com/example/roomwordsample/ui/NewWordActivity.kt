@@ -29,6 +29,6 @@ class NewWordActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_REPLY = "com.example.roomwordsample.REPLY"
+        const val EXTRA_REPLY = "REPLY_WORD"
     }
 }

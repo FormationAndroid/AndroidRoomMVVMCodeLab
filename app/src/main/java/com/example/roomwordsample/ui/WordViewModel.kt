@@ -11,14 +11,10 @@ import kotlinx.coroutines.launch
 
 class WordViewModel(application: Application) : AndroidViewModel(application) {
 
-    // The ViewModel maintains a reference to the repository to get data.
     private val repository: WordRepository
-    // LiveData gives us updated words when they change.
     val allWords: LiveData<List<Word>>
 
     init {
-        // Gets reference to WordDao from WordRoomDatabase to construct
-        // the correct WordRepository.
         val wordsDao = WordRoomDatabase.getDatabase(application, viewModelScope).wordDao()
         repository = WordRepository(wordsDao)
         allWords = repository.allWords
@@ -34,4 +30,9 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(word)
     }
 
+    fun delete(word: Word) = viewModelScope.launch {
+        repository.delete(word)
+    }
+
 }
+

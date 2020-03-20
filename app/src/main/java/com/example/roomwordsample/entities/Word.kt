@@ -9,3 +9,4 @@ class Word(
     @PrimaryKey @ColumnInfo(name = "word")
     val word: String
 )
+

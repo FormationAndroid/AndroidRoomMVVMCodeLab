@@ -4,15 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.roomwordsample.*
 import com.example.roomwordsample.entities.Word
 import com.example.roomwordsample.utils.toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,15 +23,18 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = WordListAdapter(this)
 
-        adapter.onItemClick = { word ->
+        adapter.onEditClick = { word ->
             toast("word is : ${word.word}")
+        }
+
+        adapter.onDeleteClick = { word ->
+            wordViewModel.delete(word)
         }
 
         recyclerWords.adapter = adapter
 
         wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
         wordViewModel.allWords.observe(this, Observer { words ->
-            // Update the cached copy of the words in the adapter.
             words?.let { adapter.setWords(it) }
         })
 
