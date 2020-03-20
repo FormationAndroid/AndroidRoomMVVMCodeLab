@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.roomwordsample.*
 import com.example.roomwordsample.entities.Word
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,10 +23,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = WordListAdapter(this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerWords.adapter = adapter
+        recyclerWords.layoutManager = LinearLayoutManager(this)
 
         wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
         wordViewModel.allWords.observe(this, Observer { words ->
@@ -33,8 +33,7 @@ class MainActivity : AppCompatActivity() {
             words?.let { adapter.setWords(it) }
         })
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener {
+        btnAddWord.setOnClickListener {
             val intent = Intent(this@MainActivity, NewWordActivity::class.java)
             startActivityForResult(intent, newWordActivityRequestCode)
         }
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             data?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let {
-                val word = Word(it)
+                val word = Word(word = it)
                 wordViewModel.insert(word)
             }
         } else {

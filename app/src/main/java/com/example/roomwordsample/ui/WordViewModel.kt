@@ -9,7 +9,6 @@ import com.example.roomwordsample.entities.Word
 import com.example.roomwordsample.repositories.WordRepository
 import kotlinx.coroutines.launch
 
-// Class extends AndroidViewModel and requires application as a parameter.
 class WordViewModel(application: Application) : AndroidViewModel(application) {
 
     // The ViewModel maintains a reference to the repository to get data.
@@ -21,19 +20,18 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         // Gets reference to WordDao from WordRoomDatabase to construct
         // the correct WordRepository.
         val wordsDao = WordRoomDatabase.getDatabase(application, viewModelScope).wordDao()
-        repository =
-            WordRepository(wordsDao)
+        repository = WordRepository(wordsDao)
         allWords = repository.allWords
     }
 
     /**
-     * The implementation of insert() in the database is completely hidden from the UI.
-     * Room ensures that you're not doing any long running operations on
-     * the main thread, blocking the UI, so we don't need to handle changing Dispatchers.
-     * ViewModels have a coroutine scope based on their lifecycle called
-     * viewModelScope which we can use here.
+     * L'implémentation de insert() dans la base de données est cachée de l'interface utilisateur.
+     * Room garantit que vous n'effectuez pas d'opérations de longue durée sur le thread principal, bloquant l'interface utilisateur,
+     * nous n'avons donc pas besoin de gérer des changements de Dispatcher.
+     * Les ViewModels ont une coroutine scope basée sur leur cycle de vie appelée viewModelScope que nous pouvons utiliser ici.
      */
     fun insert(word: Word) = viewModelScope.launch {
         repository.insert(word)
     }
+
 }
