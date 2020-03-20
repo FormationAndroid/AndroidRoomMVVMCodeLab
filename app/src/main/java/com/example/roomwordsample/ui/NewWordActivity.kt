@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
-import android.widget.EditText
 import com.example.roomwordsample.R
 import kotlinx.android.synthetic.main.activity_new_word.*
 
@@ -16,8 +15,7 @@ class NewWordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_word)
 
-        val button = findViewById<Button>(R.id.button_save)
-        button.setOnClickListener {
+        btnSave.setOnClickListener {
             val replyIntent = Intent()
             if (TextUtils.isEmpty(editWord.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)

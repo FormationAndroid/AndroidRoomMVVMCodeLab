@@ -14,7 +14,9 @@ class WordListAdapter internal constructor(
 ) : RecyclerView.Adapter<WordListAdapter.WordViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var words = emptyList<Word>() // Cached copy of words
+    private var words = emptyList<Word>()
+
+    var onItemClick: ((word: Word) -> Unit)? = null
 
     inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
@@ -28,6 +30,9 @@ class WordListAdapter internal constructor(
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val current = words[position]
         holder.wordItemView.text = current.word
+        holder.wordItemView.setOnClickListener {
+            onItemClick?.invoke(current)
+        }
     }
 
     internal fun setWords(words: List<Word>) {

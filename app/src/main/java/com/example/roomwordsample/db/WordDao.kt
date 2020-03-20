@@ -10,12 +10,12 @@ import com.example.roomwordsample.entities.Word
 @Dao
 interface WordDao {
 
-    @Query("SELECT * from Word ORDER BY word ASC")
+    @Query("SELECT * from word_table ORDER BY word ASC")
     fun getAlphabetizedWords(): LiveData<List<Word>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(word: Word)
 
-    @Query("DELETE FROM Word")
+    @Query("DELETE FROM word_table")
     suspend fun deleteAll()
 }

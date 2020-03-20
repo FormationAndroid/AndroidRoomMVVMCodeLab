@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomwordsample.*
 import com.example.roomwordsample.entities.Word
+import com.example.roomwordsample.utils.toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val newWordActivityRequestCode = 1
+
     private lateinit var wordViewModel: WordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +26,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val adapter = WordListAdapter(this)
+
+        adapter.onItemClick = { word ->
+            toast("word is : ${word.word}")
+        }
+
         recyclerWords.adapter = adapter
-        recyclerWords.layoutManager = LinearLayoutManager(this)
 
         wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
         wordViewModel.allWords.observe(this, Observer { words ->
@@ -48,10 +54,7 @@ class MainActivity : AppCompatActivity() {
                 wordViewModel.insert(word)
             }
         } else {
-            Toast.makeText(
-                applicationContext,
-                R.string.empty_not_saved,
-                Toast.LENGTH_LONG).show()
+            toast(R.string.empty_not_saved)
         }
     }
 }

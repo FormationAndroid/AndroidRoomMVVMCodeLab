@@ -9,7 +9,7 @@ import com.example.roomwordsample.entities.Word
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Word::class), version = 1, exportSchema = false)
+@Database(entities = [Word::class], version = 1, exportSchema = false)
 abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao
@@ -24,17 +24,14 @@ abstract class WordRoomDatabase : RoomDatabase() {
                 scope.launch {
                     val wordDao = database.wordDao()
 
-                    // Delete all content here.
-                    wordDao.deleteAll()
-
                     // Add sample words.
-                    var word = Word(word = "Hello")
+                    var word = Word("Hello")
                     wordDao.insert(word)
-                    word = Word(word = "World!")
+                    word = Word("World!")
                     wordDao.insert(word)
 
                     // TODO: Add your own words!
-                    word = Word(word = "TODO!")
+                    word = Word("TODO!")
                     wordDao.insert(word)
                 }
             }
