@@ -5,6 +5,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.roomwordsample.db.WordDao
+import com.example.roomwordsample.db.WordRoomDatabase
+import com.example.roomwordsample.entities.Word
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

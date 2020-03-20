@@ -1,10 +1,11 @@
-package com.example.roomwordsample
+package com.example.roomwordsample.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.roomwordsample.entities.Word
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -50,13 +51,18 @@ abstract class WordRoomDatabase : RoomDatabase() {
         ): WordRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
-            return INSTANCE ?: synchronized(this) {
+            return INSTANCE
+                ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                         context.applicationContext,
                         WordRoomDatabase::class.java,
                         "word_database"
                     )
-                    .addCallback(WordDatabaseCallback(scope))
+                    .addCallback(
+                        WordDatabaseCallback(
+                            scope
+                        )
+                    )
                     .build()
                 INSTANCE = instance
                 // return instance

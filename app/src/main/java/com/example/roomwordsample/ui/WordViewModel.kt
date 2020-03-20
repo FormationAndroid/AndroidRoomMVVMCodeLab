@@ -1,9 +1,12 @@
-package com.example.roomwordsample
+package com.example.roomwordsample.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.roomwordsample.db.WordRoomDatabase
+import com.example.roomwordsample.entities.Word
+import com.example.roomwordsample.repositories.WordRepository
 import kotlinx.coroutines.launch
 
 // Class extends AndroidViewModel and requires application as a parameter.
@@ -18,7 +21,8 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         // Gets reference to WordDao from WordRoomDatabase to construct
         // the correct WordRepository.
         val wordsDao = WordRoomDatabase.getDatabase(application, viewModelScope).wordDao()
-        repository = WordRepository(wordsDao)
+        repository =
+            WordRepository(wordsDao)
         allWords = repository.allWords
     }
 

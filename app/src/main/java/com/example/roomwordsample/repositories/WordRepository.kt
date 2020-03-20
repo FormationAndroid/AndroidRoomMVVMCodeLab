@@ -1,6 +1,8 @@
-package com.example.roomwordsample
+package com.example.roomwordsample.repositories
 
 import androidx.lifecycle.LiveData
+import com.example.roomwordsample.db.WordDao
+import com.example.roomwordsample.entities.Word
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
