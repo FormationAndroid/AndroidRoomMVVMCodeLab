@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                     wordViewModel.update(it as Word)
                 }
             }
-
         }
        else {
             toast(R.string.empty_not_saved)
