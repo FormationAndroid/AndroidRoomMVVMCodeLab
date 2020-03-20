@@ -13,6 +13,10 @@ class WordRepository(private val wordDao: WordDao) {
         wordDao.insert(word)
     }
 
+    suspend fun update(word: Word) {
+        wordDao.update(word)
+    }
+
     suspend fun delete(word: Word) {
         wordDao.delete(word)
     }

@@ -8,12 +8,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.roomwordsample.*
 import com.example.roomwordsample.entities.Word
+import com.example.roomwordsample.utils.EXTRA_WORD
 import com.example.roomwordsample.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val newWordActivityRequestCode = 1
+    private val editWordActivityRequestCode = 2
 
     private lateinit var wordViewModel: WordViewModel
 
@@ -24,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         val adapter = WordListAdapter(this)
 
         adapter.onEditClick = { word ->
-            toast("word is : ${word.word}")
+            val intent = Intent(this@MainActivity, EditWordActivity::class.java)
+            intent.putExtra(EXTRA_WORD, word)
+            startActivityForResult(intent, editWordActivityRequestCode)
         }
 
         adapter.onDeleteClick = { word ->
@@ -47,12 +51,22 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            data?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let {
-                val word = Word(word = it)
-                wordViewModel.insert(word)
+        if (resultCode == Activity.RESULT_OK){
+
+            if (requestCode == newWordActivityRequestCode) {
+                data?.getStringExtra(EXTRA_WORD)?.let {
+                    val word = Word(word = it)
+                    wordViewModel.insert(word)
+                }
             }
-        } else {
+            else if (requestCode == editWordActivityRequestCode) {
+                data?.getSerializableExtra(EXTRA_WORD)?.let {
+                    wordViewModel.update(it as Word)
+                }
+            }
+
+        }
+       else {
             toast(R.string.empty_not_saved)
         }
     }

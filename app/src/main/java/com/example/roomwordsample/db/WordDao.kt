@@ -13,6 +13,9 @@ interface WordDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(word: Word)
 
+    @Update
+    suspend fun update(word: Word)
+
     @Delete
     suspend fun delete(word: Word)
 
